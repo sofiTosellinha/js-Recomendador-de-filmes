@@ -1,2 +1,2 @@
 # Recomendador de filmes 
-Reprodução do jogo "pong" na biblioteca p5js em javaScript 
+Reprodução de um "recomendador de filmes" na biblioteca p5js em javaScript 
