@@ -1,2 +1,2 @@
-# js---pong
-Reprodução do jogo "pong" na biblioteca p5js em javaScript 
+# js---Recomendador de filmes
+Reprodução de um "Reomendador de filmes" na biblioteca p5js em javaScript 
