@@ -1,124 +1,83 @@
-let xbolinha = 300;
-let ybolinha = 200;
-let diametro = 15;
-let raio = diametro/2;
+// Lista de Filmes:
 
-let xvelocidade = 6;
-let yvelocidade = 6;
+//Idade 18 anos:
+// comédia >>> Todo mundo em panico
+// romance >>> 50 tons de cinzas
+// ação >>> Bastardos Inglórios
 
-let xRaquete = 10;
-let yRaquete = 155;
-let larguraRaquete = 10;
-let alturaRaquete = 90;
-let xRaqueteOponente = 580;
-let yRaqueteOponente = 155;
+//Idade 14 anos:
+// comédia >>> Ela é demais 
+// romance >>> Depois do Universo
+// ação >>> Maze Runner
 
-let meuPlacar = 0 
-let placarOponente = 0
+//Idade Livre:
+// comédia >>> Alvin e os Esquilos 
+// romance >>> Diário de uma princesa
+// ação >>> Karate Kid
 
-let trilha; 
-let ponto;
-let raquetada;
+let filme; 
+let campoIdade;
+let campoAcao;
+let campoRomance;
+let campoComedia;
 
 function setup() {
   createCanvas(600, 400);
-  trilha.loop();
+  createElement('h2', 'Recomendador de Filmes');
+  createSpan('Idade:')
+  campoIdade = createInput()
+  createElement('h3', 'Selecione somente um gênero de filme')
+  campoAcao = createCheckbox('Ação')
+  campoRomance = createCheckbox('Romance')
+  campoComedia = createCheckbox('Comédia')
 }
 
 function draw() {
   background(0);
-  desenhaBolinha();
-  movimentaBolinha();
-  verificaBorda();
-  desenhaRaquete(xRaquete, yRaquete);
-  desenhaRaquete(xRaqueteOponente, yRaqueteOponente)
-  movimentaRaquete();
-  movimentaRaqueteOponente();
-  colisaoRaquete();
-  placar();
-  contabilizaPlacar();
-}
-
-function desenhaBolinha(){
-  circle(xbolinha,ybolinha,diametro)
-} 
-
-function movimentaBolinha(){
-  xbolinha += xvelocidade;
-  ybolinha += yvelocidade;
-}
-
-function verificaBorda(){
-  if(xbolinha > (width - raio) || xbolinha < (0 + raio)){
-    xvelocidade = xvelocidade * (-1);
-  }
-  if(ybolinha > (height - raio) || ybolinha < (0 + raio)){
-    yvelocidade = yvelocidade * (-1);
-  }
-}
-
-function desenhaRaquete(x, y){
-  rect(x, y, larguraRaquete , alturaRaquete);
-}
-
-function movimentaRaquete(){
-  if(keyIsDown(UP_ARROW)){
-    yRaquete -= 10;
-  }
-  if(keyIsDown(DOWN_ARROW)){
-    yRaquete += 10;
-  }
-}
-
-function movimentaRaqueteOponente(){
-    if(keyIsDown(87)){
-    yRaqueteOponente -= 10;
-  }
-  if(keyIsDown(83)){
-    yRaqueteOponente += 10;
-  }
-}
-
-function colisaoRaquete(){
-  if(xbolinha - raio <= xRaquete + larguraRaquete &&
-    ybolinha + raio >= yRaquete &&
-    ybolinha - raio <= yRaquete + alturaRaquete){
-    xvelocidade *= -1;
-    raquetada.play();
-  }
+  textSize(40);
+  textAlign(CENTER, CENTER);
+  fill('white')
   
-  if(xbolinha + raio >= xRaqueteOponente &&
-    ybolinha + raio >= yRaqueteOponente &&
-    ybolinha - raio <= yRaqueteOponente + alturaRaquete){
-    xvelocidade *= -1;
-    raquetada.play();
-  }
+  let idade = campoIdade.value();
+  let acao = campoAcao.checked();
+  let romance = campoRomance.checked();
+  let comedia = campoComedia.checked();
+  filme = geraRecomendacao(idade, acao, romance, comedia);
+   
+  text(filme, width/2, height/2);
 }
 
-function placar(){
-  fill('orange')
-  rect(130, 5, 40, 25)
-  rect(430, 5, 40, 25)
-  textAlign(CENTER);
-  textSize(20);
-  fill(255);
-  text(meuPlacar, 150, 25);
-  text(placarOponente, 450, 25);
+function geraRecomendacao(idade, acao, romance, comedia){
+    if(idade >= 18){
+      if(acao){
+        return 'Bastardos Inglórios'
+      }else if(romance){
+        return '50 tons de cinzas'
+      }else if(comedia){
+        return 'Todo mundo em panico'
+      }else{
+        return 'Todo mundo em panico' 
+      }
+  }else if(idade >= 14) {
+  if(acao){
+        return 'Maze Runner'
+      }else if(romance){
+        return 'Depois do Universo'
+      }else if(comedia){
+        return 'Ela é demais'
+      }else{
+        return 'Maze Runner' 
+      }
+  }else{
+    if(acao){
+        return 'Karate Kid'
+      }else if(romance){
+        return 'Diário de uma princesa'
+      }else if(comedia){
+        return 'Alvin e os Esquilos'
+      }else{
+        return 'Alvin e os Esquilos' 
+      }
+  }   
 }
 
-function contabilizaPlacar(){
-  if(xbolinha - raio <= 0){
-    placarOponente +=1;
-    ponto.play();
-  }
-  if(xbolinha + raio >= width){
-    meuPlacar += 1;
-    ponto.play();
-  }
-}
-
-function preload(){
-  trilha = loadSound('trilha.mp3')
-  raquetada = loadSound('raquetada.mp3')
-  ponto = loadSound('ponto.mp3')
-}
